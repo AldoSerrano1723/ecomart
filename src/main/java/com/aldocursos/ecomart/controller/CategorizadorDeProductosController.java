@@ -2,6 +2,7 @@ package com.aldocursos.ecomart.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.prompt.ChatOptions;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +13,8 @@ public class CategorizadorDeProductosController {
 
     private final ChatClient chatClient;
 
-    public CategorizadorDeProductosController(ChatClient.Builder chatClientBuilder) {
-        this.chatClient = chatClientBuilder.build();
+    public CategorizadorDeProductosController(@Qualifier("gpt-4o-mini")  ChatClient chatClient) {
+        this.chatClient =  chatClient;
     }
 
     @GetMapping()
@@ -37,7 +38,8 @@ public class CategorizadorDeProductosController {
                 .system(system)
                 .user(producto)
                 .options(ChatOptions.builder()
-                        .temperature(0.82)
+                        .model("gpt-4o")
+                        .temperature(0.90)
                         .build())
                 .call()
                 .content();
