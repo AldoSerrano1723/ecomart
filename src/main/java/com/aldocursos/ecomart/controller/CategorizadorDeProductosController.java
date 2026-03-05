@@ -6,6 +6,7 @@ import com.knuddels.jtokkit.api.EncodingRegistry;
 import com.knuddels.jtokkit.api.EncodingType;
 import com.knuddels.jtokkit.api.ModelType;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,7 @@ public class CategorizadorDeProductosController {
         System.out.println("Tokens: " + tokens);
 
         return this.chatClient.prompt()
+                .advisors(new SimpleLoggerAdvisor())
                 .system(system)
                 .user(producto)
                 .options(ChatOptions.builder()
